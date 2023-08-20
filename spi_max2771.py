@@ -1,17 +1,7 @@
-from picozero import  pico_led
-import rp2
-import time
-from machine import Pin
-import machine
+# Define SPI
+# Settings
 import utime
-import ustruct
-import sys
-
-
-#make the led of pico as our board status check
-pico_led.on()
-
-## Define SPI
+from machine import Pin
 
 # Define the pins
 SCLK = Pin(14, Pin.OUT)
@@ -89,54 +79,3 @@ def read_reg(cs, addr):
         val |= read_sdata()
     CS.value(1)
     return val
-
-
-#define the PIO with asm
-@rp2.asm_pio(set_init=rp2.PIO.IN_LOW) #initialize the PIO
-#define the IQ data function for PIO
-def IQdata():
-    wrap_target()
-    in_(pins,1)
-    in_(pins,1)
-    wrap()
-    
-
-# Assign chip select (CS) pin (and start it high)
-cs = machine.Pin(17, machine.Pin.OUT)
-# Initialize SPI
-
-
-
-# start IQ data reading
-sm = rp2.StateMachine(0, IQdata, freq=2000, set_base=Pin(25))
-sm.active(1)
-time.sleep(3)
-sm.active(0)
-
-
-
-
-'''
-@rp2.asm_pio(set_init=rp2.PIO.OUT_LOW)
-def blink():
-    wrap_target()
-    set(pins, 1)   [31]
-    nop()          [31]
-    nop()          [31]
-    nop()          [31]
-    nop()          [31]
-    set(pins, 0)   [31]
-    nop()          [31]
-    nop()          [31]
-    nop()          [31]
-    nop()          [31]
-    wrap()
-
-# Instantiate a state machine with the blink program, at 2000Hz, with set bound to Pin(25) (LED on the Pico board)
-sm = rp2.StateMachine(0, blink, freq=2000, set_base=Pin(25))
-
-# Run the state machine for 3 seconds.  The LED should blink.
-sm.active(1)
-time.sleep(3)
-sm.active(0)
-'''
