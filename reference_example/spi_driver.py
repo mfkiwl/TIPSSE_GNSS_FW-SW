@@ -1,5 +1,6 @@
 import rp2
 from machine import Pin
+import time
 
 @rp2.asm_pio(out_shiftdir=0, autopull=True, pull_thresh=8, autopush=True, push_thresh=8, sideset_init=(rp2.PIO.OUT_LOW, rp2.PIO.OUT_HIGH), out_init=rp2.PIO.OUT_LOW)
 def spi_cpha0():
@@ -51,7 +52,12 @@ PIN_DATA = 2
 # Create an instance of PIOSPI
 spi = PIOSPI(sm_id=0, pin_clock=PIN_CLOCK, pin_enable=PIN_ENABLE, pin_data=PIN_DATA)
 
+#Prepare data
+# Data to be written
+write_data = [0x55, 0xAA, 0x33, 0x66, 0xFF]
 # Read data
 #spi.read_blocking(write_data)
-# Write data
-#spi.write_blocking(write_data)
+while True:
+    # Write data
+    spi.write_blocking(write_data)
+    time.sleep(0.1)
