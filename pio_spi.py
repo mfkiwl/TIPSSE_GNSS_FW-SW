@@ -115,5 +115,7 @@ write_data = [0x55, 0xAA, 0x33, 0x66, 0xFF]
 #spi.read_blocking(write_data)
 while True:
     # Write data
-    spi.write([0x06])
+    spi.write([0x00, 0x08])
+    buffer_out = [0x00, 0x00, 0x00, 0x00]
+    #spi.read(buffer_out)
     time.sleep(0.1)
