@@ -17,6 +17,7 @@ spi = SPI(0, baudrate=1_000_000, polarity=0, phase=0, bits=8, sck=Pin(2), mosi=m
 #init chip
 shdn.high() #Open the chip
 
+# default config 3 value 0x0EAFA1DC
 # first time write STRMEN
 csn.low()
 spi.write(b'\x00\x20') #write value of config 3 (0x02)
