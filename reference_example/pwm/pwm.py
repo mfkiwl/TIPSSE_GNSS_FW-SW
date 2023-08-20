@@ -35,7 +35,7 @@ class PIOPWM:
 
 
 # Pin 25 on Pico boards
-pwm = PIOPWM(0, 25, max_count=(1 << 16) - 1, count_freq=10_000_000)
+pwm = PIOPWM(0, 0, max_count=(1 << 16) - 1, count_freq=10_000_000)
 
 while True:
     for i in range(256):
