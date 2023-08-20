@@ -3,23 +3,20 @@ from machine import Pin
 from rp2 import PIO, StateMachine, asm_pio
 import time
 
-@rp2.asm_pio(out_shiftdir=0, autopull=True, pull_thresh=8, autopush=True, push_thresh=8, sideset_init=(rp2.PIO.OUT_LOW, rp2.PIO.OUT_HIGH), out_init=rp2.PIO.OUT_LOW)
+@rp2.asm_pio(out_shiftdir=0, autopull=True, pull_thresh=8, autopush=False, push_thresh=8, sideset_init=(rp2.PIO.OUT_LOW, rp2.PIO.OUT_HIGH), out_init=rp2.PIO.OUT_LOW)
 def spi_cpha0():
-    set(x, 6)
     wrap_target()
-    pull(ifempty).side(0x2)   [1]
-    label("bitloop")
-    out(pins, 1).side(0x0)    [1]
-    in_(pins, 1).side(0x1)
-    jmp(x_dec, "bitloop").side(0x1)
-
+    label("stall")
+    pull()
+    label("loop1")
+    nop().side(0x0)
+    in_(pins, 1).side(0x0)
     out(pins, 1).side(0x0)
-    set(x, 6).side(0x0)
-    in_(pins, 1).side(0x1)
-    jmp(not_osre, "bitloop").side(0x1)
-
-    nop().side(0x0)           [1] # CSn back porch
+    nop().side(0x1)
+    jmp(not_osre, "loop1").side(0x1)
+    push().side(0x0)
     wrap()
+    
 
 class PIOSPI:
     """
@@ -118,5 +115,5 @@ write_data = [0x55, 0xAA, 0x33, 0x66, 0xFF]
 #spi.read_blocking(write_data)
 while True:
     # Write data
-    spi.write([0xCC])
+    spi.write([0x06])
     time.sleep(0.1)
