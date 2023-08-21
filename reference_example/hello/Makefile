@@ -1,4 +1,4 @@
-PHONY: all
+.PHONY: all
 all: build/hello.uf2
 
 hello.uf2: main.c build/Makefile
