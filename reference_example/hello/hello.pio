@@ -1,0 +1,10 @@
+.program hello
+
+loop:
+    pull
+    set x 7
+loop1:
+    set pins, 1 [20]
+    set pins, 0 [20]
+    jmp x-- loop1
+    jmp loop

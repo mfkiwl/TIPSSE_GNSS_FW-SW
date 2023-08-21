@@ -9,7 +9,10 @@ static inline void hello_program_init(PIO pio, uint sm, uint offset, uint pin)
 
     // Map the state machine's OUT pin group to one pin, namely the `pin`
     // parameter to this function.
-    sm_config_set_out_pins(&c, pin, 1);
+    // sm_config_set_out_pins(&c, pin, 1);
+
+    sm_config_set_set_pins(&c, pin, 1);
+
     // Set this pin's GPIO function (connect PIO to the pad)
     pio_gpio_init(pio, pin);
     // Set the pin direction to output at the PIO
@@ -23,6 +26,7 @@ static inline void hello_program_init(PIO pio, uint sm, uint offset, uint pin)
 
 int main()
 {
+    const uint IO_PIN = 0;
     const uint LED_PIN = PICO_DEFAULT_LED_PIN;
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
@@ -38,7 +42,7 @@ int main()
     // none). Configure it to run our program, and start it, using the
     // helper function we included in our .pio file.
     uint sm = pio_claim_unused_sm(pio, true);
-    hello_program_init(pio, sm, offset, PICO_DEFAULT_LED_PIN);
+    hello_program_init(pio, sm, offset, IO_PIN);
 
     stdio_init_all();
     while (true) {

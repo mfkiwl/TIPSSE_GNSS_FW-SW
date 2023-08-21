@@ -1,7 +1,5 @@
 .PHONY: all
-all: build/hello.uf2
-
-build/hello.elf build/hello.uf2: main.c build/Makefile
+all: build/Makefile
 	cd build && make -j
 
 build/Makefile:
