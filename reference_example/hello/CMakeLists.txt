@@ -14,12 +14,17 @@ add_executable(hello
     main.c
 )
 
+pico_generate_pio_header(hello ${CMAKE_CURRENT_LIST_DIR}/hello.pio)
+
 # enable usb output, disable uart output
 pico_enable_stdio_usb(hello 1)
 pico_enable_stdio_uart(hello 0)
 
 # Add pico_stdlib library which aggregates commonly used features
-target_link_libraries(hello pico_stdlib)
+target_link_libraries(hello
+    pico_stdlib
+    hardware_pio
+)
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(hello)
