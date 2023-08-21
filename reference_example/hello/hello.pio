@@ -2,9 +2,30 @@
 
 loop:
     pull
-    set x 7
+    set pindirs, 7 [20]
+
+    set x 11
+    set pins, 0 [20]
 loop1:
     set pins, 1 [20]
     set pins, 0 [20]
     jmp x-- loop1
+
+    set pins, 4 [20]
+    set x 2
+    set pins, 5 [20]
+    set pins, 0 [20]
+    set pindirs, 3 [1]
+loop2:
+    set pins, 1 [20]
+    set pins, 0 [20]
+    jmp x-- loop2
+
+    set x 31
+    set pins, 0 [20]
+loop3:
+    set pins, 1 [20]
+    set pins, 0 [20]
+    jmp x-- loop3
+    set pins, 3 [20]
     jmp loop

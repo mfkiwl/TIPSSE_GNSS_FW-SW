@@ -11,12 +11,14 @@ static inline void hello_program_init(PIO pio, uint sm, uint offset, uint pin)
     // parameter to this function.
     // sm_config_set_out_pins(&c, pin, 1);
 
-    sm_config_set_set_pins(&c, pin, 1);
+    sm_config_set_set_pins(&c, pin, 3);
 
     // Set this pin's GPIO function (connect PIO to the pad)
     pio_gpio_init(pio, pin);
+    pio_gpio_init(pio, pin+1);
+    pio_gpio_init(pio, pin+2);
     // Set the pin direction to output at the PIO
-    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+    //pio_sm_set_consecutive_pindirs(pio, sm, pin, 3, true);
 
     // Load our configuration, and jump to the start of the program
     pio_sm_init(pio, sm, offset, &c);
