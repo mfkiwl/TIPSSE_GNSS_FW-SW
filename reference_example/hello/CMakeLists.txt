@@ -14,6 +14,10 @@ add_executable(hello
     main.c
 )
 
+# enable usb output, disable uart output
+pico_enable_stdio_usb(hello 1)
+pico_enable_stdio_uart(hello 0)
+
 # Add pico_stdlib library which aggregates commonly used features
 target_link_libraries(hello pico_stdlib)
 
