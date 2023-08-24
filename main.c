@@ -2,22 +2,22 @@
 #include <stdint.h>
 #include <pico/stdlib.h>
 #include <hardware/pio.h>
-#include "hello.pio.h"
+#include "max2771_spi.pio.h"
 
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 const uint CSN_PIN = 0;
 const uint SCLK_PIN = 1;
 const uint SDATA_PIN = 2;
 
-static inline void hello_program_init(PIO pio, uint sm)
+static inline void max2771_spi_program_init(PIO pio, uint sm)
 {
     // Our assembled program needs to be loaded into this PIO's instruction
     // memory. This SDK function will find a location (offset) in the
     // instruction memory where there is enough space for our program. We need
     // to remember this location!
-    uint offset = pio_add_program(pio, &hello_program);
+    uint offset = pio_add_program(pio, &max2771_spi_program);
 
-    pio_sm_config cfg = hello_program_get_default_config(offset);
+    pio_sm_config cfg = max2771_spi_program_get_default_config(offset);
 
     sm_config_set_clkdiv(&cfg, 20);
 
@@ -66,12 +66,11 @@ int main()
     // helper function we included in our .pio file.
     uint sm = pio_claim_unused_sm(pio, true);
 
-    hello_program_init(pio, sm);
+    max2771_spi_program_init(pio, sm);
 
     stdio_init_all();
     while (true) {
         printf("MAX2771 registers:\n");
-        // gpio_put(LED_PIN, 1);
         printf("%08x\n", max2771_read(pio, sm, 0x00));
         sleep_ms(10);
         printf("%08x\n", max2771_read(pio, sm, 0x01));
@@ -94,9 +93,5 @@ int main()
         sleep_ms(10);
         printf("%08x\n", max2771_read(pio, sm, 0x0A));
         sleep_ms(500);
-        // gpio_put(LED_PIN, 0);
-        // pio_sm_put_blocking(pio, sm, 0);
-        // pio_sm_put_blocking(pio, sm, 0);
-        // sleep_ms(500);
     }
 }
