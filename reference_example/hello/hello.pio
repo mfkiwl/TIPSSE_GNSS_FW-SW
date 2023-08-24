@@ -1,31 +1,33 @@
 .program hello
 
-loop:
+.side_set 1 opt
+
+; Pin assignments:
+; - CSN is SET pin 0
+; - SCLK is side-set pin 0
+; - SDATA is OUT pin 0 and IN pin 0
+
+    set pindirs 7
     pull
-    set pindirs, 7 [20]
-
-    set x 11
-    set pins, 0 [20]
-loop1:
-    set pins, 1 [20]
-    set pins, 0 [20]
-    jmp x-- loop1
-
-    set pins, 4 [20]
-    set x 2
-    set pins, 5 [20]
-    set pins, 0 [20]
-    set pindirs, 3 [1]
-loop2:
-    set pins, 1 [20]
-    set pins, 0 [20]
-    jmp x-- loop2
-
-    set x 31
-    set pins, 0 [20]
-loop3:
-    set pins, 1 [20]
-    set pins, 0 [20]
-    jmp x-- loop3
-    set pins, 3 [20]
-    jmp loop
+    set pins, 0 [1]
+    set x, 15
+addr_loop:
+    out pins, 1 side 0
+    jmp x-- addr_loop side 1
+    jmp pin read side 0
+write:
+    pull side 0
+write_loop:
+    out pins, 1 side 0
+    jmp !osre write_loop side 1
+    jmp end side 0
+read:
+    set pindirs 3
+    set x, 31
+read_loop:
+    in pins, 1 side 1
+    jmp x-- read_loop side 0
+    push
+end:
+    nop side 0 [1]
+    set pins, 1
