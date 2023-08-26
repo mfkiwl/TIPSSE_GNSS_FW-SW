@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <pico/stdlib.h>
+#include <pico/bit_ops.h>
 #include <hardware/pio.h>
 #include "max2771_spi.pio.h"
+#include "max2771.h"
 
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 const uint CSN_PIN = 0;
@@ -70,28 +72,91 @@ int main()
 
     stdio_init_all();
     while (true) {
+        printf("=========================\n");
         printf("MAX2771 registers:\n");
-        printf("%08x\n", max2771_read(pio, sm, 0x00));
+
+        printf("=========================\n");
+        uint32_t cfg1_val = max2771_read(pio, sm, 0x00);
+        printf("CFG1: 0x%08x\n", cfg1_val);
+        MAX2771_CFG1 cfg1 = *(MAX2771_CFG1*)&cfg1_val;
+        printf("FGAIN:     0x%x\n", cfg1.FGAIN);
+        printf("FCENX:     0x%x\n", cfg1.FCENX);
+        printf("F3OR5:     0x%x\n", cfg1.F3OR5);
+        printf("FBW:       0x%x\n", cfg1.FBW);
+        printf("FCEN:      0x%x\n", cfg1.FCEN);
+        printf("MIXERMODE: 0x%x\n", cfg1.MIXERMODE);
+        printf("LNAMODE:   0x%x\n", cfg1.LNAMODE);
+        printf("MIXPOLE:   0x%x\n", cfg1.MIXPOLE);
+        printf("IDLE:      0x%x\n", cfg1.IDLE);
+        printf("CHIPEN:    0x%x\n", cfg1.CHIPEN);
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x01));
+
+        printf("=========================\n");
+        uint32_t cfg2_val = max2771_read(pio, sm, 0x01);
+        printf("CFG2: 0x%08x\n", cfg2_val);
+        MAX2771_CFG2 cfg2 = *(MAX2771_CFG2*)&cfg2_val;
+        printf("DIEID:           0x%x\n", cfg2.DIEID);
+        printf("DRVCFG:          0x%x\n", cfg2.DRVCFG);
+        printf("BITS:            0x%x\n", cfg2.BITS);
+        printf("FORMAT:          0x%x\n", cfg2.FORMAT);
+        printf("AGCMODE:         0x%x\n", cfg2.AGCMODE);
+        printf("SPI_SDIO_CONFIG: 0x%x\n", cfg2.SPI_SDIO_CONFIG);
+        printf("GAINREF:         0x%x\n", cfg2.GAINREF);
+        printf("IQEN:            0x%x\n", cfg2.IQEN);
+        printf("ANAIMON:         0x%x\n", cfg2.ANAIMON);
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x02));
+
+        printf("=========================\n");
+        uint32_t cfg3_val = max2771_read(pio, sm, 0x02);
+        printf("CFG3: 0x%08x\n", cfg3_val);
+        MAX2771_CFG3 cfg3 = *(MAX2771_CFG3*)&cfg3_val;
+        printf("STRMRST:       0x%x\n", cfg3.STRMRST);
+        printf("DATASYNCEN:    0x%x\n", cfg3.DATASYNCEN);
+        printf("TIMESYNCEN:    0x%x\n", cfg3.TIMESYNCEN);
+        printf("STAMPEN:       0x%x\n", cfg3.STAMPEN);
+        printf("STRMBITS:      0x%x\n", cfg3.STRMBITS);
+        printf("STRMSTOP:      0x%x\n", cfg3.STRMSTOP);
+        printf("STRMSTART:     0x%x\n", cfg3.STRMSTART);
+        printf("STRMEN:        0x%x\n", cfg3.STRMEN);
+        printf("PGAQEN:        0x%x\n", cfg3.PGAQEN);
+        printf("PGAIEN:        0x%x\n", cfg3.PGAIEN);
+        printf("FHIPEN:        0x%x\n", cfg3.FHIPEN);
+        printf("HILOADEN:      0x%x\n", cfg3.HILOADEN);
+        printf("GAININ:        0x%x\n", cfg3.GAININ);
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x03));
+
+        printf("=========================\n");
+        printf("0x%08x\n", max2771_read(pio, sm, 0x03));
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x04));
+
+        printf("=========================\n");
+        printf("0x%08x\n", max2771_read(pio, sm, 0x04));
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x05));
+
+        printf("=========================\n");
+        printf("0x%08x\n", max2771_read(pio, sm, 0x05));
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x06));
+
+        printf("=========================\n");
+        printf("0x%08x\n", max2771_read(pio, sm, 0x06));
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x07));
+
+        printf("=========================\n");
+        printf("0x%08x\n", max2771_read(pio, sm, 0x07));
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x08));
+
+        printf("=========================\n");
+        printf("0x%08x\n", max2771_read(pio, sm, 0x08));
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x09));
+
+        printf("=========================\n");
+        printf("0x%08x\n", max2771_read(pio, sm, 0x09));
         sleep_ms(10);
-        printf("%08x\n", max2771_read(pio, sm, 0x0A));
+
+        printf("=========================\n");
+        printf("0x%08x\n", max2771_read(pio, sm, 0x0A));
+
+        printf("=========================\n\n");
         sleep_ms(500);
     }
 }
