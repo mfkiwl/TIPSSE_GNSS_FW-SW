@@ -126,7 +126,16 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n");
-        printf("0x%08x\n", max2771_read(pio, sm, 0x03));
+        uint32_t pllcfg_val = max2771_read(pio, sm, 0x03);
+        printf("PLLCFG: 0x%08x\n", pllcfg_val);
+        MAX2771_PLLCFG pllcfg = *(MAX2771_PLLCFG*)&pllcfg_val;
+        printf("PWRSAV:     0x%x\n", pllcfg.PWRSAV);
+        printf("INT_PLL:    0x%x\n", pllcfg.INT_PLL);
+        printf("ICP:        0x%x\n", pllcfg.ICP);
+        printf("IXTAL:      0x%x\n", pllcfg.IXTAL);
+        printf("REFOUTEN:   0x%x\n", pllcfg.REFOUTEN);
+        printf("LOBAND:     0x%x\n", pllcfg.LOBAND);
+        printf("REFDIV:     0x%x\n", pllcfg.REFDIV);
         sleep_ms(10);
 
         printf("=========================\n");

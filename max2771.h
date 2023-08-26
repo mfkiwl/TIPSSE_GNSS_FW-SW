@@ -61,4 +61,28 @@ typedef struct
     unsigned RESERVED8  : 4;
 } MAX2771_CFG3;
 
+typedef struct
+{
+    unsigned RESERVED1  : 1;
+    unsigned RESERVED2  : 1;
+    unsigned PWRSAV     : 1;
+    unsigned INT_PLL    : 1;
+    unsigned RESERVED3  : 3;
+    unsigned RESERVED4  : 1;
+    unsigned RESERVED5  : 1;
+    unsigned ICP        : 1;
+    unsigned RESERVED6  : 3;
+    unsigned RESERVED7  : 1;
+    unsigned RESERVED8  : 5;
+    unsigned IXTAL      : 2;
+    unsigned RESERVED9  : 2;
+    unsigned RESERVED10 : 1;
+    unsigned REFOUTEN   : 1;
+    unsigned RESERVED11 : 1;
+    unsigned RESERVED12 : 1;
+    unsigned RESERVED13 : 1;
+    unsigned LOBAND     : 1;
+    unsigned REFDIV     : 3;
+} MAX2771_PLLCFG;
+
 #endif
