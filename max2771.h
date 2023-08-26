@@ -85,4 +85,93 @@ typedef struct
     unsigned REFDIV     : 3;
 } MAX2771_PLLCFG;
 
+typedef struct
+{
+    unsigned RESERVED1  : 3;
+    unsigned RDIV       : 10;
+    unsigned NDIV       : 15;
+    unsigned RESERVED2  : 4;
+} MAX2771_PLLINTDIV;
+
+typedef struct
+{
+    unsigned RESERVED1  : 1;
+    unsigned RESERVED2  : 1;
+    unsigned RESERVED3  : 1;
+    unsigned RESERVED4  : 1;
+    unsigned RESERVED5  : 4;
+    unsigned FDIV       : 20;
+    unsigned RESERVED6  : 4;
+} MAX2771_PLLFRACDIV;
+
+typedef struct
+{
+    unsigned RESERVED1  : 28;
+    unsigned RESERVED2  : 4;
+} MAX2771_RESERVED;
+
+typedef struct
+{
+    unsigned RESERVED1  : 1;
+    unsigned RESERVED2  : 1;
+    unsigned RESERVED3  : 1;
+    unsigned RESERVED4  : 1;
+    unsigned RESERVED5  : 1;
+    unsigned RESERVED6  : 1;
+    unsigned RESERVED7  : 5;
+    unsigned RESERVED8  : 1;
+    unsigned RESERVED9  : 4;
+    unsigned RESERVED10 : 4;
+    unsigned RESERVED11 : 4;
+    unsigned RESERVED12 : 4;
+    unsigned RESERVED13 : 2;
+    unsigned RESERVED14 : 1;
+    unsigned RESERVED15 : 1;
+} MAX2771_TEST1;
+
+typedef struct
+{
+    unsigned RESERVED1  : 1;
+    unsigned RESERVED2  : 1;
+    unsigned RESERVED3  : 1;
+    unsigned RESERVED4  : 5;
+    unsigned RESERVED5  : 5;
+    unsigned RESERVED6  : 1;
+    unsigned RESERVED7  : 1;
+    unsigned RESERVED8  : 1;
+    unsigned RESERVED9  : 1;
+    unsigned RESERVED10 : 1;
+    unsigned RESERVED11 : 2;
+    unsigned RESERVED12 : 1;
+    unsigned RESERVED13 : 1;
+    unsigned RESERVED14 : 3;
+    unsigned RESERVED15 : 4;
+    unsigned RD_CALC : 1;
+    unsigned RESERVED16 : 1;
+    unsigned RESERVED17 : 1;
+} MAX2771_TEST2;
+
+typedef struct
+{
+    unsigned MODE           : 1;
+    unsigned RESERVED1      : 1;
+    unsigned ADCCLK         : 1;
+    unsigned FCLKIN         : 1;
+    unsigned REFCLK_M_CNT   : 12;
+    unsigned REFCLK_L_CNT   : 12;
+    unsigned EXTADCCLK      : 1;
+    unsigned RESERVED2      : 3;
+} MAX2771_CLKCFG1;
+
+typedef struct
+{
+    unsigned RESERVED1      : 2;
+    unsigned CLKOUT_SEL     : 1;
+    unsigned PREFRACDIV_SEL : 1;
+    unsigned ADCCLK_M_CNT   : 12;
+    unsigned ADCCLK_L_CNT   : 12;
+    unsigned RESERVED2      : 1;
+    unsigned RESERVED3      : 3;
+} MAX2771_CLKCFG2;
+
 #endif

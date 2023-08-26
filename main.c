@@ -139,31 +139,56 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n");
-        printf("0x%08x\n", max2771_read(pio, sm, 0x04));
+        uint32_t pllintdiv_val = max2771_read(pio, sm, 0x04);
+        printf("PLLINTDIV: 0x%08x\n", pllintdiv_val);
+        MAX2771_PLLINTDIV pllintdiv = *(MAX2771_PLLINTDIV*)&pllintdiv_val;
+        printf("RDIV:   0x%x\n", pllintdiv.RDIV);
+        printf("NDIV:   0x%x\n", pllintdiv.NDIV);
         sleep_ms(10);
 
         printf("=========================\n");
-        printf("0x%08x\n", max2771_read(pio, sm, 0x05));
+        uint32_t pllfracdiv_val = max2771_read(pio, sm, 0x05);
+        printf("PLLFRACDIV: 0x%08x\n", pllfracdiv_val);
+        MAX2771_PLLFRACDIV pllfracdiv = *(MAX2771_PLLFRACDIV*)&pllfracdiv_val;
+        printf("FDIV:   0x%x\n", pllfracdiv.FDIV);
         sleep_ms(10);
 
         printf("=========================\n");
-        printf("0x%08x\n", max2771_read(pio, sm, 0x06));
+        uint32_t reserved_val = max2771_read(pio, sm, 0x06);
+        printf("RESERVED: 0x%08x\n", reserved_val);
         sleep_ms(10);
 
         printf("=========================\n");
-        printf("0x%08x\n", max2771_read(pio, sm, 0x07));
+        uint32_t clkcfg1_val = max2771_read(pio, sm, 0x07);
+        printf("CLKCFG1: 0x%08x\n", clkcfg1_val);
+        MAX2771_CLKCFG1 clkcfg1 = *(MAX2771_CLKCFG1*)&clkcfg1_val;
+        printf("MODE:           0x%x\n", clkcfg1.MODE);
+        printf("ADCCLK:         0x%x\n", clkcfg1.ADCCLK);
+        printf("FCLKIN:         0x%x\n", clkcfg1.FCLKIN);
+        printf("REFCLK_M_CNT:   0x%x\n", clkcfg1.REFCLK_M_CNT);
+        printf("REFCLK_L_CNT:   0x%x\n", clkcfg1.REFCLK_L_CNT);
+        printf("EXTADCCLK:      0x%x\n", clkcfg1.EXTADCCLK);
         sleep_ms(10);
 
         printf("=========================\n");
-        printf("0x%08x\n", max2771_read(pio, sm, 0x08));
+        uint32_t test1_val = max2771_read(pio, sm, 0x08);
+        printf("TEST1: 0x%08x\n", test1_val);
         sleep_ms(10);
 
         printf("=========================\n");
-        printf("0x%08x\n", max2771_read(pio, sm, 0x09));
+        uint32_t test2_val = max2771_read(pio, sm, 0x09);
+        printf("TEST2: 0x%08x\n", test2_val);
         sleep_ms(10);
 
         printf("=========================\n");
-        printf("0x%08x\n", max2771_read(pio, sm, 0x0A));
+        uint32_t clkcfg2_val = max2771_read(pio, sm, 0x0A);
+        printf("CLKCFG1: 0x%08x\n", clkcfg2_val);
+        MAX2771_CLKCFG2 clkcfg2 = *(MAX2771_CLKCFG2*)&clkcfg2_val;
+        printf("CLKOUT_SEL:     0x%x\n", clkcfg2.CLKOUT_SEL);
+        printf("PREFRACDIV_SEL: 0x%x\n", clkcfg2.PREFRACDIV_SEL);
+        printf("ADCCLK_M_CNT:   0x%x\n", clkcfg2.ADCCLK_M_CNT);
+        printf("ADCCLK_L_CNT:   0x%x\n", clkcfg2.ADCCLK_L_CNT);
+        sleep_ms(10);
 
         printf("=========================\n\n");
         sleep_ms(500);
