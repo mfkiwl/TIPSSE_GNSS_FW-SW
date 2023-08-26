@@ -191,6 +191,6 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n\n");
-        sleep_ms(500);
+        getchar();
     }
 }
