@@ -128,8 +128,6 @@ int main()
 
     max2771_spi_program_init(pio, sm);
 
-    stdio_init_all();
-
     struct mg_mgr mgr;  // Initialise Mongoose event manager
     mg_mgr_init(&mgr);  // and attach it to the interface
     mg_timer_add(&mgr, 500, MG_TIMER_REPEAT, blink_cb, &mgr);
@@ -146,6 +144,8 @@ int main()
     s_ifp = &mif;
     mg_tcpip_init(&mgr, &mif);
     tusb_init();
+
+    stdio_init_all();
 
     MG_INFO(("Initialising application..."));
     web_init(&mgr);
