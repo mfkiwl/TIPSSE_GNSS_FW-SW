@@ -37,7 +37,7 @@ static inline void max2771_spi_program_init(PIO pio, uint sm)
     sm_config_set_in_pins(&cfg, SDATA_PIN);
     sm_config_set_jmp_pin(&cfg, SDATA_PIN);
 
-    sm_config_set_out_shift(&cfg, true, false, 32);
+    sm_config_set_out_shift(&cfg, false, false, 32);
     sm_config_set_in_shift(&cfg, false, false, 32);
 
     // Set this pin's GPIO function (connect PIO to the pad)
@@ -59,20 +59,27 @@ static inline void max2771_spi_program_init(PIO pio, uint sm)
 
 uint32_t max2771_read(PIO pio, uint sm, uint32_t addr)
 {
-    pio_sm_put_blocking(pio, sm, 0xF000 | __rev(addr) >> 20);
+    pio_sm_put_blocking(pio, sm, 0x000FFFFF | addr << 20);
     return pio_sm_get_blocking(pio, sm);
 }
 
-static void blink_cb(void *arg)
-{  // Blink periodically
-    gpio_put(PICO_DEFAULT_LED_PIN, !gpio_get_out_level(PICO_DEFAULT_LED_PIN));
-    (void) arg;
-}
+PIO pio;
+uint sm;
 
 void max2771_write(PIO pio, uint sm, uint32_t addr, uint32_t val)
 {
-    pio_sm_put_blocking(pio, sm, __rev(addr) >> 20);
-    pio_sm_put_blocking(pio, sm, __rev(val));
+    pio_sm_put_blocking(pio, sm, addr << 20);
+    pio_sm_put_blocking(pio, sm, val);
+}
+
+static void blink_cb(void *arg)
+{   // Blink periodically
+    uint32_t cfg1_val = max2771_read(pio, sm, 0x00);
+    printf("CFG1: 0x%08x\n", cfg1_val);
+    max2771_write(pio, sm, 0x00, 0xBEA41603);
+
+    gpio_put(PICO_DEFAULT_LED_PIN, !gpio_get_out_level(PICO_DEFAULT_LED_PIN));
+    (void) arg;
 }
 
 bool tud_network_recv_cb(const uint8_t *buf, uint16_t len)
@@ -119,12 +126,12 @@ int main()
     gpio_set_dir(LED_PIN, GPIO_OUT);
     gpio_put(LED_PIN, 1);
 
-    PIO pio = pio0;
+    pio = pio0;
 
     // Find a free state machine on our chosen PIO (erroring if there are
     // none). Configure it to run our program, and start it, using the
     // helper function we included in our .pio file.
-    uint sm = pio_claim_unused_sm(pio, true);
+    sm = pio_claim_unused_sm(pio, true);
 
     max2771_spi_program_init(pio, sm);
 
