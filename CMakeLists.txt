@@ -13,6 +13,7 @@ pico_sdk_init()
 add_executable(tipsse_gnss
     main.c
     usb_descriptors.c
+    reset_interface.c
     mongoose/mongoose.c
     mongoose/examples/rp2040/pico-rndis-dashboard/msc_disk.c
     mongoose/examples/device-dashboard/net.c
@@ -56,3 +57,7 @@ add_definitions(-DHTTP_URL="http://0.0.0.0/")
 add_definitions(-DDUAL_CONFIG=1)
 
 add_definitions(-DPICO_STDIO_USB_ENABLE_RESET_VIA_VENDOR_INTERFACE=1)
+add_definitions(-DPICO_STDIO_USB_RESET_INTERFACE_SUPPORT_RESET_TO_BOOTSEL=1)
+add_definitions(-DPICO_STDIO_USB_RESET_INTERFACE_SUPPORT_RESET_TO_FLASH_BOOT=1)
+add_definitions(-DPICO_STDIO_USB_ENABLE_RESET_VIA_BAUD_RATE=1)
+add_definitions(-DPICO_STDIO_USB_RESET_BOOTSEL_ACTIVITY_LED=1)

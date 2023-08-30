@@ -56,7 +56,7 @@ enum
   ITF_NUM_NET,
   ITF_NUM_NET_DATA,
   ITF_NUM_MSC,
-  //ITF_NUM_RPI_RESET,
+  ITF_NUM_RPI_RESET,
   ITF_NUM_TOTAL
 };
 
@@ -89,9 +89,9 @@ tusb_desc_device_t const desc_device =
     
     .bMaxPacketSize0    = CFG_TUD_ENDPOINT0_SIZE,
 
-    .idVendor           = 0xCafe,
-    .idProduct          = USB_PID,
-    .bcdDevice          = 0x0101,
+    .idVendor           = 0x2E8A,
+    .idProduct          = 0x000a,
+    .bcdDevice          = 0x0100,
 
     .iManufacturer      = STRID_MANUFACTURER,
     .iProduct           = STRID_PRODUCT,
@@ -111,9 +111,9 @@ uint8_t const * tud_descriptor_device_cb(void)
 // Configuration Descriptor
 //--------------------------------------------------------------------+
 #define TUD_RPI_RESET_DESC_LEN  9
-#define MAIN_CONFIG_TOTAL_LEN    (TUD_CONFIG_DESC_LEN + TUD_MSC_DESC_LEN + TUD_RNDIS_DESC_LEN + TUD_CDC_DESC_LEN)
-#define ALT_CONFIG_TOTAL_LEN     (TUD_CONFIG_DESC_LEN + TUD_MSC_DESC_LEN + TUD_CDC_ECM_DESC_LEN + TUD_CDC_DESC_LEN)
-#define NCM_CONFIG_TOTAL_LEN     (TUD_CONFIG_DESC_LEN + TUD_MSC_DESC_LEN + TUD_CDC_NCM_DESC_LEN + TUD_CDC_DESC_LEN)
+#define MAIN_CONFIG_TOTAL_LEN    (TUD_CONFIG_DESC_LEN + TUD_MSC_DESC_LEN + TUD_RNDIS_DESC_LEN + TUD_CDC_DESC_LEN + TUD_RPI_RESET_DESC_LEN)
+#define ALT_CONFIG_TOTAL_LEN     (TUD_CONFIG_DESC_LEN + TUD_MSC_DESC_LEN + TUD_CDC_ECM_DESC_LEN + TUD_CDC_DESC_LEN + TUD_RPI_RESET_DESC_LEN)
+#define NCM_CONFIG_TOTAL_LEN     (TUD_CONFIG_DESC_LEN + TUD_MSC_DESC_LEN + TUD_CDC_NCM_DESC_LEN + TUD_CDC_DESC_LEN + TUD_RPI_RESET_DESC_LEN)
 
 #define EPNUM_NET_NOTIF   0x81
 #define EPNUM_NET_OUT     0x02
@@ -148,7 +148,7 @@ static uint8_t const rndis_configuration[] =
 
   MSCDESC,
 
-  //TUD_RPI_RESET_DESCRIPTOR(ITF_NUM_RPI_RESET, STRID_RPI_RESET)
+  TUD_RPI_RESET_DESCRIPTOR(ITF_NUM_RPI_RESET, STRID_RPI_RESET)
 };
 
 #if DUAL_CONFIG
@@ -165,7 +165,7 @@ static uint8_t const ecm_configuration[] =
 
   MSCDESC,
 
-  //TUD_RPI_RESET_DESCRIPTOR(ITF_NUM_RPI_RESET, STRID_RPI_RESET)
+  TUD_RPI_RESET_DESCRIPTOR(ITF_NUM_RPI_RESET, STRID_RPI_RESET)
 };
 #endif
 
@@ -184,7 +184,7 @@ static uint8_t const ncm_configuration[] =
 
   MSCDESC,
 
-  //TUD_RPI_RESET_DESCRIPTOR(ITF_NUM_RPI_RESET, STRID_RPI_RESET)
+  TUD_RPI_RESET_DESCRIPTOR(ITF_NUM_RPI_RESET, STRID_RPI_RESET)
 };
 
 #endif
