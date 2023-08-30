@@ -5,11 +5,19 @@
 #include <hardware/pio.h>
 #include "max2771_spi.pio.h"
 #include "max2771.h"
+#include <mongoose.h>
+#include <tusb.h>
+#include <net.h>
 
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 const uint CSN_PIN = 0;
 const uint SCLK_PIN = 1;
 const uint SDATA_PIN = 2;
+
+static struct mg_tcpip_if *s_ifp;
+
+const uint8_t tud_network_mac_address[6] = {2, 2, 0x84, 0x6A, 0x96, 0};
+
 
 static inline void max2771_spi_program_init(PIO pio, uint sm)
 {
@@ -55,6 +63,56 @@ uint32_t max2771_read(PIO pio, uint sm, uint32_t addr)
     return pio_sm_get_blocking(pio, sm);
 }
 
+static void blink_cb(void *arg)
+{  // Blink periodically
+    gpio_put(PICO_DEFAULT_LED_PIN, !gpio_get_out_level(PICO_DEFAULT_LED_PIN));
+    (void) arg;
+}
+
+void max2771_write(PIO pio, uint sm, uint32_t addr, uint32_t val)
+{
+    pio_sm_put_blocking(pio, sm, __rev(addr) >> 20);
+    pio_sm_put_blocking(pio, sm, __rev(val));
+}
+
+bool tud_network_recv_cb(const uint8_t *buf, uint16_t len)
+{
+    mg_tcpip_qwrite((void *) buf, len, s_ifp);
+    // MG_INFO(("RECV %hu", len));
+    // mg_hexdump(buf, len);
+    tud_network_recv_renew();
+    return true;
+}
+
+void tud_network_init_cb(void) {}
+
+uint16_t tud_network_xmit_cb(uint8_t *dst, void *ref, uint16_t arg)
+{
+    // MG_INFO(("SEND %hu", arg));
+    memcpy(dst, ref, arg);
+    return arg;
+}
+
+static size_t usb_tx(const void *buf, size_t len, struct mg_tcpip_if *ifp)
+{
+    if (!tud_ready()) return 0;
+    while (!tud_network_can_xmit(len)) tud_task();
+    tud_network_xmit((void *) buf, len);
+    (void) ifp;
+    return len;
+}
+
+static bool usb_up(struct mg_tcpip_if *ifp)
+{
+    (void) ifp;
+    return tud_inited() && tud_ready() && tud_connected();
+}
+
+static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_dta)
+{
+    if (ev == MG_EV_HTTP_MSG) return mg_http_reply(c, 200, "", "ok\n");
+}
+
 int main()
 {
     gpio_init(LED_PIN);
@@ -71,6 +129,33 @@ int main()
     max2771_spi_program_init(pio, sm);
 
     stdio_init_all();
+
+    struct mg_mgr mgr;  // Initialise Mongoose event manager
+    mg_mgr_init(&mgr);  // and attach it to the interface
+    mg_timer_add(&mgr, 500, MG_TIMER_REPEAT, blink_cb, &mgr);
+
+    struct mg_tcpip_driver driver = {.tx = usb_tx, .up = usb_up};
+    struct mg_tcpip_if mif = {
+        .mac = {2, 0, 1, 2, 3, 0x77},
+        .ip = mg_htonl(MG_U32(192, 168, 3, 1)),
+        .mask = mg_htonl(MG_U32(255, 255, 255, 0)),
+        .enable_dhcp_server = true,
+        .driver = &driver,
+        .recv_queue.size = 4096
+    };
+    s_ifp = &mif;
+    mg_tcpip_init(&mgr, &mif);
+    tusb_init();
+
+    MG_INFO(("Initialising application..."));
+    web_init(&mgr);
+
+    MG_INFO(("Starting event loop"));
+    for (;;) {
+        mg_mgr_poll(&mgr, 0);
+        tud_task();
+    }
+
     while (true) {
         printf("=========================\n");
         printf("MAX2771 registers:\n");

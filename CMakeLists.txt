@@ -12,6 +12,12 @@ pico_sdk_init()
 # rest of your project
 add_executable(tipsse_gnss
     main.c
+    mongoose/examples/rp2040/pico-rndis-dashboard/msc_disk.c
+    mongoose/examples/rp2040/pico-rndis-dashboard/usb_descriptors.c
+    mongoose/mongoose.c
+    mongoose/examples/device-dashboard/net.c
+    mongoose/examples/device-dashboard/packed_fs.c
+    pico-sdk/lib/tinyusb/lib/networking/rndis_reports.c
 )
 
 pico_generate_pio_header(tipsse_gnss ${CMAKE_CURRENT_LIST_DIR}/max2771_spi.pio)
@@ -20,11 +26,29 @@ pico_generate_pio_header(tipsse_gnss ${CMAKE_CURRENT_LIST_DIR}/max2771_spi.pio)
 pico_enable_stdio_usb(tipsse_gnss 1)
 pico_enable_stdio_uart(tipsse_gnss 0)
 
+target_include_directories(tipsse_gnss PUBLIC
+    pico-sdk/lib/tinyusb/lib/networking
+    mongoose/examples/rp2040/pico-rndis-dashboard
+)
+
 # Add pico_stdlib library which aggregates commonly used features
 target_link_libraries(tipsse_gnss
     pico_stdlib
     hardware_pio
+    tinyusb_device
 )
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(tipsse_gnss)
+
+# Mongoose build flags
+add_definitions(-DMG_ENABLE_TCPIP=1)
+add_definitions(-DMG_ENABLE_PACKED_FS=1)
+add_definitions(-DMG_ENABLE_FILE=0)
+add_definitions(-DDISABLE_ROUTING=1)
+
+# Example build options
+add_definitions(-DHTTP_URL="http://0.0.0.0/")
+
+# Extra build flags (enable if needed)
+add_definitions(-DDUAL_CONFIG=0)
