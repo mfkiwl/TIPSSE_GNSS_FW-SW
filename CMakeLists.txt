@@ -23,8 +23,8 @@ add_executable(tipsse_gnss
 pico_generate_pio_header(tipsse_gnss ${CMAKE_CURRENT_LIST_DIR}/max2771_spi.pio)
 
 # enable usb output, disable uart output
-pico_enable_stdio_usb(tipsse_gnss 1)
-pico_enable_stdio_uart(tipsse_gnss 0)
+pico_enable_stdio_usb(tipsse_gnss 0)
+pico_enable_stdio_uart(tipsse_gnss 1)
 
 target_include_directories(tipsse_gnss PUBLIC
     pico-sdk/lib/tinyusb/lib/networking
@@ -54,3 +54,6 @@ add_definitions(-DHTTP_URL="http://0.0.0.0/")
 
 # Extra build flags (enable if needed)
 add_definitions(-DDUAL_CONFIG=1)
+
+add_definitions(-DPICO_STDIO_USB_ENABLE_RESET_VIA_VENDOR_INTERFACE=1)
+add_definitions(-DPICO_STDIO_USB_DEVICE_SELF_POWERED=0)
