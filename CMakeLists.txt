@@ -12,6 +12,7 @@ pico_sdk_init()
 # rest of your project
 add_executable(tipsse_gnss
     main.c
+    max2771_spi.c
     usb_descriptors.c
     reset_interface.c
     mongoose/mongoose.c
