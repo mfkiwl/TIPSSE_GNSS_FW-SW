@@ -97,7 +97,7 @@ const uint8_t msc_disk0[DISK_BLOCK_NUM][DISK_BLOCK_SIZE] =
   //------------- Block2: Root Directory -------------//
   {
       // first entry is volume label
-      'M' , 'o' , 'n' , 'g' , 'o' , 'o' , 's' , 'e' , ' ' , ' ' , ' ' , 0x08, 0x00, 0x00, 0x00, 0x00,
+      'T' , 'I' , 'P' , 'S' , 'S' , 'E' , '-' , 'G' , 'N' , 'S' , 'S' , 0x08, 0x00, 0x00, 0x00, 0x00,
       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x4F, 0x6D, 0x65, 0x43, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
       // second entry is our file
       'I' , 'N' , 'D' , 'E' , 'X' , ' ' , ' ' , ' ' , 'H' , 'T' , 'M' , 0x20, 0x00, 0xC6, 0x52, 0x6D,

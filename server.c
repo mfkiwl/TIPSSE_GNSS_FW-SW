@@ -8,10 +8,6 @@ const uint8_t tud_network_mac_address[6] = {2, 2, 0x84, 0x6A, 0x96, 0};
 
 void blink_cb(void *arg)
 {   // Blink periodically
-    // uint32_t cfg1_val = max2771_read(pio, sm, 0x00);
-    // printf("CFG1: 0x%08x\n", cfg1_val);
-    // max2771_write(pio, sm, 0x00, 0xBEA41603);
-
     gpio_put(PICO_DEFAULT_LED_PIN, !gpio_get_out_level(PICO_DEFAULT_LED_PIN));
     (void) arg;
 }
