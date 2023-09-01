@@ -18,7 +18,6 @@ add_executable(tipsse_gnss
     server.c
     usb_descriptors.c
     reset_interface.c
-    net.c
     packed_fs.c
     msc_disk.c
     mongoose/mongoose.c
