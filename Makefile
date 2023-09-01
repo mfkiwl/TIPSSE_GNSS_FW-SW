@@ -4,7 +4,7 @@ all: build/Makefile
 
 build/Makefile:
 	mkdir -p build
-	cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
+	cd build && cmake ..
 
 .PHONY: clean
 clean:
@@ -13,11 +13,3 @@ clean:
 .PHONY: load
 load: build/tipsse_gnss.uf2
 	picotool load -f $<
-
-.PHONY: openocd
-openocd:
-	openocd -f board/pico-debug.cfg
-
-.PHONY: load-elf
-load-elf: build/tipsse_gnss.elf
-	arm-none-eabi-gdb -x load.txt --batch --args $<

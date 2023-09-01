@@ -1,9 +1,6 @@
 [submodule "pico-sdk"]
 	path = pico-sdk
 	url = https://github.com/raspberrypi/pico-sdk.git
-[submodule "pico-debug"]
-	path = pico-debug
-	url = https://github.com/majbthrd/pico-debug.git
 [submodule "mongoose"]
 	path = mongoose
 	url = https://github.com/cesanta/mongoose.git
