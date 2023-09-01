@@ -89,17 +89,7 @@ static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
     if (ev == MG_EV_HTTP_MSG) {
         struct mg_http_message *hm = (struct mg_http_message *) ev_data;
 
-        if      (mg_http_match_uri(hm, "/read/00")) handle_register_read(c, 0x00);
-        else if (mg_http_match_uri(hm, "/read/01")) handle_register_read(c, 0x01);
-        else if (mg_http_match_uri(hm, "/read/02")) handle_register_read(c, 0x02);
-        else if (mg_http_match_uri(hm, "/read/03")) handle_register_read(c, 0x03);
-        else if (mg_http_match_uri(hm, "/read/04")) handle_register_read(c, 0x04);
-        else if (mg_http_match_uri(hm, "/read/05")) handle_register_read(c, 0x05);
-        else if (mg_http_match_uri(hm, "/read/06")) handle_register_read(c, 0x06);
-        else if (mg_http_match_uri(hm, "/read/07")) handle_register_read(c, 0x07);
-        else if (mg_http_match_uri(hm, "/read/08")) handle_register_read(c, 0x08);
-        else if (mg_http_match_uri(hm, "/read/09")) handle_register_read(c, 0x09);
-        else if (mg_http_match_uri(hm, "/read/0a")) handle_register_read(c, 0x0a);
+        if (mg_http_match_uri(hm, "/read/*")) handle_register_read(c, strtol(hm->uri.ptr+6, NULL, 16));
         else {
             struct mg_http_serve_opts opts;
             memset(&opts, 0, sizeof(opts));
