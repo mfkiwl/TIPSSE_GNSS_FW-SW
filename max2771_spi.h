@@ -5,7 +5,7 @@
 #include <hardware/pio.h>
 
 void max2771_spi_program_init(PIO pio);
-uint32_t max2771_read(uint32_t addr);
-void max2771_write(uint32_t addr, uint32_t val);
+uint32_t max2771_read(uint8_t addr);
+void max2771_write(uint8_t addr, uint32_t val);
 
 #endif

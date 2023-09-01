@@ -53,14 +53,14 @@ void max2771_spi_program_init(PIO pio)
     pio_sm_set_enabled(spi_pio, spi_sm, true);
 }
 
-uint32_t max2771_read(uint32_t addr)
+uint32_t max2771_read(uint8_t addr)
 {
-    pio_sm_put_blocking(spi_pio, spi_sm, 0x000FFFFF | addr << 20);
+    pio_sm_put_blocking(spi_pio, spi_sm, 0x000FFFFF | (uint32_t)addr << 20);
     return pio_sm_get_blocking(spi_pio, spi_sm);
 }
 
-void max2771_write(uint32_t addr, uint32_t val)
+void max2771_write(uint8_t addr, uint32_t val)
 {
-    pio_sm_put_blocking(spi_pio, spi_sm, addr << 20);
+    pio_sm_put_blocking(spi_pio, spi_sm, (uint32_t)addr << 20);
     pio_sm_put_blocking(spi_pio, spi_sm, val);
 }
