@@ -46,7 +46,8 @@ target_link_libraries(tipsse_gnss
 pico_add_extra_outputs(tipsse_gnss)
 
 add_custom_command(OUTPUT packed_fs.c
-    COMMAND ${CMAKE_SOURCE_DIR}/bin/pack ${CMAKE_SOURCE_DIR}/mongoose/examples/device-dashboard/web_root/* > packed_fs.c
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/mongoose/examples/device-dashboard
+    COMMAND ${CMAKE_SOURCE_DIR}/bin/pack web_root/* > ${CMAKE_BINARY_DIR}/packed_fs.c
 )
 
 # Mongoose build flags
