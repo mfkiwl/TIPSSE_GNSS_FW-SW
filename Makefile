@@ -13,3 +13,10 @@ clean:
 .PHONY: load
 load: build/tipsse_gnss.uf2
 	picotool load -f $<
+
+.PHONY: pack
+pack: bin/pack
+
+bin/pack: mongoose/test/pack.c
+	mkdir -p $(@D)
+	$(CC) $< -o $@
