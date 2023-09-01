@@ -77,19 +77,35 @@ static void timer_sntp_fn(void *param)
     mg_sntp_connect(param, "udp://time.google.com:123", sfn, NULL);
 }
 
-static void handle_register_read(struct mg_connection *c, uint8_t addr)
-{
-    uint32_t value = max2771_read(addr);
-    mg_http_reply(c, 200, "", "%08x", value);
-}
-
 // HTTP request handler function
 static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
     if (ev == MG_EV_HTTP_MSG) {
         struct mg_http_message *hm = (struct mg_http_message *) ev_data;
 
-        if (mg_http_match_uri(hm, "/read/*")) handle_register_read(c, strtol(hm->uri.ptr+6, NULL, 16));
+        if (mg_http_match_uri(hm, "/read/*")) {
+            const char* addr_ptr = mg_strstr(mg_str(hm->uri.ptr+1), mg_str("/"))+1;
+            struct mg_str addr_str = mg_str_n(addr_ptr, hm->uri.ptr+hm->uri.len-addr_ptr+1);
+            ((char*)addr_str.ptr)[addr_str.len] = '\0';
+            uint8_t addr = strtoul(addr_str.ptr, NULL, 16);
+            uint32_t value = max2771_read(addr);
+            printf("read 0x%02x -> 0x%08x\n", addr, value);
+            mg_http_reply(c, 200, "", "%08x", value);
+        }
+        if (mg_http_match_uri(hm, "/write/*/*")) {
+            const char* addr_ptr = mg_strstr(mg_str(hm->uri.ptr+1), mg_str("/"))+1;
+            const char* value_ptr = mg_strstr(mg_str(addr_ptr), mg_str("/"))+1;
+            struct mg_str addr_str = mg_str_n(addr_ptr, hm->uri.ptr+hm->uri.len-addr_ptr+1);
+            struct mg_str value_str = mg_str_n(value_ptr, hm->uri.ptr+hm->uri.len-value_ptr+1);
+            ((char*)addr_str.ptr)[addr_str.len] = '\0';
+            ((char*)value_str.ptr)[value_str.len] = '\0';
+            uint8_t addr = strtoul(addr_str.ptr, NULL, 16);
+            uint32_t value = strtoul(value_str.ptr, NULL, 16);
+            max2771_write(addr, value);
+            uint32_t readback = max2771_read(addr);
+            printf("write 0x%02x 0x%08x -> 0x%08x\n", addr, value, readback);
+            mg_http_reply(c, 200, "", "%08x", readback);
+        }
         else {
             struct mg_http_serve_opts opts;
             memset(&opts, 0, sizeof(opts));
