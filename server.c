@@ -48,8 +48,3 @@ bool usb_up(struct mg_tcpip_if *ifp)
     (void) ifp;
     return tud_inited() && tud_ready() && tud_connected();
 }
-
-static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_dta)
-{
-    if (ev == MG_EV_HTTP_MSG) return mg_http_reply(c, 200, "", "ok\n");
-}
