@@ -6,7 +6,7 @@ add_custom_target(frontend
 add_custom_command(OUTPUT dist/index.html
     COMMAND npm run build
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    DEPENDS node_modules
+    DEPENDS node_modules index.html src/index.css src/index.mjs
 )
 
 add_custom_command(OUTPUT node_modules

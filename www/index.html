@@ -22,6 +22,36 @@
             <div class="navbar-end">
             </div>
         </div>
+
+        0x00 <input id="reg00" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x01 <input id="reg01" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x02 <input id="reg02" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x03 <input id="reg03" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x04 <input id="reg04" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x05 <input id="reg05" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x06 <input id="reg06" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x07 <input id="reg07" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x08 <input id="reg08" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x09 <input id="reg09" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+        0x0A <input id="reg0A" type="text" class="input input-bordered w-full max-w-xs m-3"/>
+
+        <script>
+            async function main()
+            {
+                document.getElementById("reg00").value = await (await fetch("/read/00")).text();
+                document.getElementById("reg01").value = await (await fetch("/read/01")).text();
+                document.getElementById("reg02").value = await (await fetch("/read/02")).text();
+                document.getElementById("reg03").value = await (await fetch("/read/03")).text();
+                document.getElementById("reg04").value = await (await fetch("/read/04")).text();
+                document.getElementById("reg05").value = await (await fetch("/read/05")).text();
+                document.getElementById("reg06").value = await (await fetch("/read/06")).text();
+                document.getElementById("reg07").value = await (await fetch("/read/07")).text();
+                document.getElementById("reg08").value = await (await fetch("/read/08")).text();
+                document.getElementById("reg09").value = await (await fetch("/read/09")).text();
+                document.getElementById("reg0A").value = await (await fetch("/read/0A")).text();
+            }
+            main();
+        </script>
         
         <div id="disconnection-modal" class="modal">
             <div class="modal-box">
