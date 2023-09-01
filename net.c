@@ -224,9 +224,9 @@ static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_data) {
       struct mg_http_serve_opts opts;
       memset(&opts, 0, sizeof(opts));
 #if MG_ARCH == MG_ARCH_UNIX || MG_ARCH == MG_ARCH_WIN32
-      opts.root_dir = "web_root";  // On workstations, use filesystem
+      opts.root_dir = "dist";  // On workstations, use filesystem
 #else
-      opts.root_dir = "/web_root";  // On embedded, use packed files
+      opts.root_dir = "/dist";  // On embedded, use packed files
       opts.fs = &mg_fs_packed;
 #endif
       mg_http_serve_dir(c, ev_data, &opts);

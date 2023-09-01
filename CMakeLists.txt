@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
+
 # initialize pico-sdk from submodule
 # note: this must happen before project()
 include(pico-sdk/pico_sdk_init.cmake)
@@ -45,9 +47,12 @@ target_link_libraries(tipsse_gnss
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(tipsse_gnss)
 
+find_package(Npm REQUIRED)
+add_subdirectory(www)
 add_custom_command(OUTPUT packed_fs.c
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/mongoose/examples/device-dashboard
-    COMMAND ${CMAKE_SOURCE_DIR}/bin/pack web_root/* > ${CMAKE_BINARY_DIR}/packed_fs.c
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/www
+    COMMAND ${CMAKE_SOURCE_DIR}/bin/pack dist/* > ${CMAKE_BINARY_DIR}/packed_fs.c
+    DEPENDS frontend
 )
 
 # Mongoose build flags

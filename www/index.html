@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" style="min-width:100%;min-height:100%;max-width:100%;max-height:100%;">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+        <title>TIPSSE GNSS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./src/index.css">
+        <script type="module" src="./src/index.mjs"></script>
+    </head>
+    <body class="min-h-screen max-h-screen min-w-screen max-w-screen h-screen w-screen flex flex-col">
+
+        <!-- Navbar -->
+        <div class="w-full navbar bg-base-300">
+            <div class="navbar-start">
+                <div class="flex-none px-2 mx-2 mr-5 hidden lg:block">TIPSSE GNSS</div>
+            </div>
+            <div id="toolbar" class="navbar-center flex">
+            </div>
+            <div class="navbar-end">
+            </div>
+        </div>
+        
+        <div id="disconnection-modal" class="modal">
+            <div class="modal-box">
+                <div class="alert alert-error shadow-lg">
+                    <div>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <span class="font-bold text-lg">Server disconnected</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
