@@ -5,7 +5,7 @@
 #include <hardware/pio.h>
 #include <mongoose.h>
 #include <tusb.h>
-#include <net.h>
+#include "net.h"
 #include "max2771.h"
 #include "max2771_spi.h"
 #include "server.h"

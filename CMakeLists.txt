@@ -16,10 +16,10 @@ add_executable(tipsse_gnss
     server.c
     usb_descriptors.c
     reset_interface.c
+    net.c
+    packed_fs.c
     mongoose/mongoose.c
     mongoose/examples/rp2040/pico-rndis-dashboard/msc_disk.c
-    mongoose/examples/device-dashboard/net.c
-    mongoose/examples/device-dashboard/packed_fs.c
     pico-sdk/lib/tinyusb/lib/networking/rndis_reports.c
 )
 
@@ -32,7 +32,6 @@ pico_enable_stdio_uart(tipsse_gnss 0)
 target_include_directories(tipsse_gnss PUBLIC
     pico-sdk/lib/tinyusb/lib/networking
     mongoose
-    mongoose/examples/device-dashboard
     ${CMAKE_SOURCE_DIR}
 )
 
