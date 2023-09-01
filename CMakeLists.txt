@@ -18,8 +18,8 @@ add_executable(tipsse_gnss
     reset_interface.c
     net.c
     packed_fs.c
+    msc_disk.c
     mongoose/mongoose.c
-    mongoose/examples/rp2040/pico-rndis-dashboard/msc_disk.c
     pico-sdk/lib/tinyusb/lib/networking/rndis_reports.c
 )
 
