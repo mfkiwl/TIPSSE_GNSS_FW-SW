@@ -11,23 +11,13 @@
 
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 
-PIO pio;
-uint sm;
-
 int main()
 {
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
     gpio_put(LED_PIN, 1);
 
-    pio = pio0;
-
-    // Find a free state machine on our chosen PIO (erroring if there are
-    // none). Configure it to run our program, and start it, using the
-    // helper function we included in our .pio file.
-    sm = pio_claim_unused_sm(pio, true);
-
-    max2771_spi_program_init(pio, sm);
+    max2771_spi_program_init(pio0);
 
     struct mg_mgr mgr;  // Initialise Mongoose event manager
     mg_mgr_init(&mgr);  // and attach it to the interface
@@ -62,7 +52,7 @@ int main()
         printf("MAX2771 registers:\n");
 
         printf("=========================\n");
-        uint32_t cfg1_val = max2771_read(pio, sm, 0x00);
+        uint32_t cfg1_val = max2771_read(0x00);
         printf("CFG1: 0x%08x\n", cfg1_val);
         MAX2771_CFG1 cfg1 = *(MAX2771_CFG1*)&cfg1_val;
         printf("FGAIN:     0x%x\n", cfg1.FGAIN);
@@ -78,7 +68,7 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t cfg2_val = max2771_read(pio, sm, 0x01);
+        uint32_t cfg2_val = max2771_read(0x01);
         printf("CFG2: 0x%08x\n", cfg2_val);
         MAX2771_CFG2 cfg2 = *(MAX2771_CFG2*)&cfg2_val;
         printf("DIEID:           0x%x\n", cfg2.DIEID);
@@ -93,7 +83,7 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t cfg3_val = max2771_read(pio, sm, 0x02);
+        uint32_t cfg3_val = max2771_read(0x02);
         printf("CFG3: 0x%08x\n", cfg3_val);
         MAX2771_CFG3 cfg3 = *(MAX2771_CFG3*)&cfg3_val;
         printf("STRMRST:       0x%x\n", cfg3.STRMRST);
@@ -112,7 +102,7 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t pllcfg_val = max2771_read(pio, sm, 0x03);
+        uint32_t pllcfg_val = max2771_read(0x03);
         printf("PLLCFG: 0x%08x\n", pllcfg_val);
         MAX2771_PLLCFG pllcfg = *(MAX2771_PLLCFG*)&pllcfg_val;
         printf("PWRSAV:     0x%x\n", pllcfg.PWRSAV);
@@ -125,7 +115,7 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t pllintdiv_val = max2771_read(pio, sm, 0x04);
+        uint32_t pllintdiv_val = max2771_read(0x04);
         printf("PLLINTDIV: 0x%08x\n", pllintdiv_val);
         MAX2771_PLLINTDIV pllintdiv = *(MAX2771_PLLINTDIV*)&pllintdiv_val;
         printf("RDIV:   0x%x\n", pllintdiv.RDIV);
@@ -133,19 +123,19 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t pllfracdiv_val = max2771_read(pio, sm, 0x05);
+        uint32_t pllfracdiv_val = max2771_read(0x05);
         printf("PLLFRACDIV: 0x%08x\n", pllfracdiv_val);
         MAX2771_PLLFRACDIV pllfracdiv = *(MAX2771_PLLFRACDIV*)&pllfracdiv_val;
         printf("FDIV:   0x%x\n", pllfracdiv.FDIV);
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t reserved_val = max2771_read(pio, sm, 0x06);
+        uint32_t reserved_val = max2771_read(0x06);
         printf("RESERVED: 0x%08x\n", reserved_val);
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t clkcfg1_val = max2771_read(pio, sm, 0x07);
+        uint32_t clkcfg1_val = max2771_read(0x07);
         printf("CLKCFG1: 0x%08x\n", clkcfg1_val);
         MAX2771_CLKCFG1 clkcfg1 = *(MAX2771_CLKCFG1*)&clkcfg1_val;
         printf("MODE:           0x%x\n", clkcfg1.MODE);
@@ -157,17 +147,17 @@ int main()
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t test1_val = max2771_read(pio, sm, 0x08);
+        uint32_t test1_val = max2771_read(0x08);
         printf("TEST1: 0x%08x\n", test1_val);
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t test2_val = max2771_read(pio, sm, 0x09);
+        uint32_t test2_val = max2771_read(0x09);
         printf("TEST2: 0x%08x\n", test2_val);
         sleep_ms(10);
 
         printf("=========================\n");
-        uint32_t clkcfg2_val = max2771_read(pio, sm, 0x0A);
+        uint32_t clkcfg2_val = max2771_read(0x0A);
         printf("CLKCFG1: 0x%08x\n", clkcfg2_val);
         MAX2771_CLKCFG2 clkcfg2 = *(MAX2771_CLKCFG2*)&clkcfg2_val;
         printf("CLKOUT_SEL:     0x%x\n", clkcfg2.CLKOUT_SEL);
