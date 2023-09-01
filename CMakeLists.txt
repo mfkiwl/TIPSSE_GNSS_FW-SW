@@ -45,6 +45,10 @@ target_link_libraries(tipsse_gnss
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(tipsse_gnss)
 
+add_custom_command(OUTPUT packed_fs.c
+    COMMAND ${CMAKE_SOURCE_DIR}/bin/pack ${CMAKE_SOURCE_DIR}/mongoose/examples/device-dashboard/web_root/* > packed_fs.c
+)
+
 # Mongoose build flags
 add_definitions(-DMG_ENABLE_TCPIP=1)
 add_definitions(-DMG_ENABLE_PACKED_FS=1)
