@@ -1,33 +1,34 @@
 .program max2771_spi
 
-.side_set 1 opt
+; Use 1 SIDE-SET bit, optional
+.side_set 1 opt 
 
 ; Pin assignments:
-; - CSN is SET pin 0
-; - SCLK is side-set pin 0
-; - SDATA is OUT pin 0 and IN pin 0
+; - CSN:    SET pin 0
+; - SCLK:   SET pin 1 / SIDESET pin 0
+; - SDATA:  SET pin 2 / OUT pin 0 / IN pin 0
 
-    set pindirs 7
-    pull
-    set pins, 0 [1]
-    set x, 15
+    set pindirs 7 ; CSN=out, SCLK=out, SDATA=out
+    pull ; pull addr bits from output FIFO
+    set pins, 0 [1] ; CSN low
+    set x, 15 ; loop for 16 addr bits
 addr_loop:
-    out pins, 1 side 0
-    jmp x-- addr_loop side 1
-    jmp pin read side 0
+    out pins, 1 side 0 ; SDATA output, SCLK low
+    jmp x-- addr_loop side 1 ; SCLK high, loop
+    jmp pin read side 0 ; goto "read" if SDATA is high
 write:
-    pull side 0
+    pull side 0 ; pull value bits from output FIFO
 write_loop:
-    out pins, 1 side 0
-    jmp !osre write_loop side 1
-    jmp end side 0
+    out pins, 1 side 0 ; SDATA output, SCLK low
+    jmp !osre write_loop side 1 ; SCLK high, loop
+    jmp end side 0 ; goto "end"
 read:
-    set pindirs 3
-    set x, 31
+    set pindirs 3 ; CSN=out, SCLK=out, SDATA=in
+    set x, 31 ; loop for 32 addr bits
 read_loop:
-    in pins, 1 side 1
-    jmp x-- read_loop side 0
-    push
+    in pins, 1 side 1 ; SDATA input, SCLK high
+    jmp x-- read_loop side 0 ; SCLK low, loop
+    push ; push value bits to input FIFO
 end:
-    nop side 0 [1]
-    set pins, 1
+    nop side 0 [1] ; SCLK low
+    set pins, 1 ; CSN high
