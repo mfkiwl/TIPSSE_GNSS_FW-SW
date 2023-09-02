@@ -63,12 +63,14 @@ enum
 enum
 {
 #if CFG_TUD_ECM_RNDIS
-  CONFIG_ID_RNDIS = 0,
-#if DUAL_CONFIG
-  CONFIG_ID_ECM   = 1,
+#if ENABLE_RNDIS
+  CONFIG_ID_RNDIS,
+#endif
+#if ENABLE_ECM
+  CONFIG_ID_ECM,
 #endif
 #else
-  CONFIG_ID_NCM   = 0,
+  CONFIG_ID_NCM,
 #endif
   CONFIG_ID_COUNT
 };
@@ -135,6 +137,7 @@ uint8_t const * tud_descriptor_device_cb(void)
 
 #if CFG_TUD_ECM_RNDIS
 
+#if ENABLE_RNDIS
 static uint8_t const rndis_configuration[] =
 {
   // Config number (index+1), interface count, string index, total length, attribute, power in mA
@@ -150,8 +153,9 @@ static uint8_t const rndis_configuration[] =
 
   TUD_RPI_RESET_DESCRIPTOR(ITF_NUM_RPI_RESET, STRID_RPI_RESET)
 };
+#endif
 
-#if DUAL_CONFIG
+#if ENABLE_ECM
 static uint8_t const ecm_configuration[] =
 {
   // Config number (index+1), interface count, string index, total length, attribute, power in mA
@@ -196,12 +200,14 @@ static uint8_t const ncm_configuration[] =
 static uint8_t const * const configuration_arr[] =
 {
 #if CFG_TUD_ECM_RNDIS
-  [CONFIG_ID_RNDIS] = rndis_configuration
-#if DUAL_CONFIG
-  , [CONFIG_ID_ECM  ] = ecm_configuration
+#if ENABLE_RNDIS
+  [CONFIG_ID_RNDIS] = rndis_configuration,
+#endif
+#if ENABLE_ECM
+  [CONFIG_ID_ECM  ] = ecm_configuration,
 #endif
 #else
-  [CONFIG_ID_NCM  ] = ncm_configuration
+  [CONFIG_ID_NCM  ] = ncm_configuration,
 #endif
 };
 

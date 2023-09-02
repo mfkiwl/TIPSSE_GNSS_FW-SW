@@ -64,7 +64,8 @@ add_definitions(-DDISABLE_ROUTING=1)
 add_definitions(-DHTTP_URL="http://0.0.0.0/")
 
 # Extra build flags (enable if needed)
-add_definitions(-DDUAL_CONFIG=1)
+add_definitions(-DENABLE_RNDIS=0)
+add_definitions(-DENABLE_ECM=1)
 
 add_definitions(-DPICO_STDIO_USB_ENABLE_RESET_VIA_VENDOR_INTERFACE=1)
 add_definitions(-DPICO_STDIO_USB_RESET_INTERFACE_SUPPORT_RESET_TO_BOOTSEL=1)
