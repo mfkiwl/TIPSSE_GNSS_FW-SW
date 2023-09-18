@@ -13,5 +13,5 @@ git submodule update --init --recursive
 ```
 
 ```bash
-brew install cmake arm-none-eabi-gcc npm
+brew install cmake gcc-arm-embedded npm
 ```
