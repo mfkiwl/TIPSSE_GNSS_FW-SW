@@ -9,5 +9,9 @@
 ## Instructions for mac
 
 ```bash
-$ brew install cmake
+git submodule update --init --recursive
+```
+
+```bash
+brew install cmake gcc-arm-embedded npm
 ```
