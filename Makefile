@@ -1,5 +1,5 @@
 .PHONY: all
-all: build/Makefile
+all: build/Makefile bin/pack
 	cd build && make -j
 
 build/Makefile:
