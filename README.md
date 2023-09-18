@@ -9,5 +9,9 @@
 ## Instructions for mac
 
 ```bash
-$ brew install cmake arm-none-eabi-gcc npm
+git submodule update --init --recursive
+```
+
+```bash
+brew install cmake arm-none-eabi-gcc npm
 ```
