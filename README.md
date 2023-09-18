@@ -8,6 +8,6 @@
 
 ## Instructions for mac
 
-```shell
+```bash
 $ brew install cmake
 ```
